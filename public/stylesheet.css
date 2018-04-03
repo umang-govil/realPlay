@@ -1,0 +1,11 @@
+.seekBase {
+	height: 30px;
+	width: 100%;
+	border: 1px solid #cccccc;
+}
+
+.seekLoad {
+	height: 30px;
+	width: 0;
+	background-color: #E0EAF1;
+}
