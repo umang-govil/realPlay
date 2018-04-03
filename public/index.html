@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RealPlay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="jquery.min.js"></script>
+  <script src="angular.min.js"></script>
+  <script src="materialize.min.js"></script>
+  <script src="controller.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+</head>
+<style type="text/css">
+ body {
+    /*margin: 0;
+    height: 100%;*/
+    font-family: 'Raleway', sans-serif;
+}
+</style>
+<body style="background-color: #f1f1f1;" ng-app="playlistApp" ng-controller="app">
+  <div style="background-color: white;" class="container">
+    <h2 style="text-align: center;background-color: teal;color: white; padding: 20px;">Real Time Playlist</h2>
+      <div class="container">
+        <div style="padding: 15px;">
+          <div class="row">
+            <div class="input-field col s11">
+              <input id="message" type="text" class="validate" required>
+              <label for="message">msg</label>
+              <button ng-click="send()" class="waves-effect waves-light btn">Send</button>
+              <br>
+              <div id="mess1"></div>
+              <div id="mess2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
+
