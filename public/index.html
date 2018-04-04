@@ -27,13 +27,22 @@
     <h2 style="text-align: center;background-color: teal;color: white; padding: 20px;">Real Time Playlist</h2>
       <div class="container">
         <div style="padding: 15px;">
-          <div class="row">
-            <div class="input-field col s11">
-              <input ng-model="mess" id="message" type="text" class="validate" required>
-              <label for="message">Paste your youtube videoID </label>
-              <button ng-click="send()" class="waves-effect waves-light btn">Send</button>
+        <div class="row">
+            <div id="thumbnail" class="input-field col s6">
+                <img class="z-depth-4 responsive-img" src="{{image}}">
             </div>
+            <br>
+             <div id="title" class="input-field col s6">
+                <span><b>{{title}}</b></span>
+            </div>
+           <div style="float: right;" id="mediaPlayer" class="input-field col s6">
             <center>
+            <audio id="media" controls>
+                <source id="mp3" src="" type="audio/mp3">
+            </audio>
+          </center>
+          </div>
+          <center>
             <div id="loader" class="input-field col s11">
             <div class="preloader-wrapper active">
               <div class="spinner-layer spinner-blue-only">
@@ -47,13 +56,20 @@
               </div>
             </div>
           </div>
-           <div id="mediaPlayer" class="input-field col s11">
-            <center>
-            <audio id="media" controls>
-                <source id="mp3" src="" type="audio/mp3">
-            </audio>
+        </center>
         </div>
-        </div>
+          <br>
+          <div class="input-field col s11">
+              <input ng-model="mess" id="message" type="text" class="validate" required>
+              <label for="message">Paste your Youtube Url </label>
+              <button ng-click="add()" class="waves-effect waves-light btn">Add</button>
+              &nbsp;<button ng-click="queue()" class="waves-effect waves-light btn">Queue</button>
+          </div>
+         <div class="input-field col s11">
+          <ul class="collection with-header">
+            <li class="collection-header"><h5>Playlist :</h5></li>
+            <li ng-repeat="song in playlist" id="{{song.videoId}}" class="collection-item">{{song.title}}</li>
+         </ul>
         </div>
       </div>
     </div>
