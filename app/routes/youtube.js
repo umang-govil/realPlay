@@ -9,7 +9,7 @@ var api = express.Router();
 api.getSong = function(req, res) {
 	console.log('hi');
 	var videoId = req.params.vidId;
-	console.log(videoId)
+	console.log(videoId);
 	var requestUrl = 'http://youtube.com/watch?v=' + videoId;
 	console.log(requestUrl);
 	try {

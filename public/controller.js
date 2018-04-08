@@ -23,7 +23,6 @@ app.controller('app', ['$scope', 'factory', function($scope, factory) {
 		}
 		console.log(youtubeVideoId);
 
-
 		songObject.videoId = youtubeVideoId;
 
 		console.log(youtubeVideoId);
