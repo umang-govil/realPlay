@@ -62,13 +62,13 @@
           <div class="input-field col s11">
               <input ng-model="mess" id="message" type="text" class="validate" required>
               <label for="message">Paste your Youtube Url </label>
-              <button ng-click="add()" class="waves-effect waves-light btn">Add</button>
+              <button ng-click="add()" class="waves-effect waves-light btn">Play</button>
               &nbsp;<button ng-click="queue()" class="waves-effect waves-light btn">Queue</button>
           </div>
          <div class="input-field col s11">
           <ul class="collection with-header">
             <li class="collection-header"><h5>Playlist :</h5></li>
-            <li ng-repeat="song in playlist" id="{{song.videoId}}" class="collection-item">{{song.title}}</li>
+            <li ng-repeat="song in playlist track by $index" id="{{song.videoId}}" class="collection-item">{{song.title}}</li>
          </ul>
         </div>
       </div>

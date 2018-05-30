@@ -13,7 +13,7 @@ app.factory('factory', ['$http', function($http) {
 				});
 		},
 		fetchSongDetails: function(data, callback) {
-			$http.get(youtubeApi + data + '&key=AIzaSyAupB3bvP4KZB7xL8zbKBC9jZlTVbysJaA')
+			$http.get(youtubeApi + data + '&key=AIzaSyBY2NVg4Gzrhn1PN0kfZaCliNs_OiZlBPU')
 				.then(function(success) {
 					callback(success);
 				}, function(error) {
