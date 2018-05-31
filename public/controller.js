@@ -66,39 +66,8 @@ app.controller('app', ['$scope', 'factory', function($scope, factory) {
 		}
 
 		// console.log(youtubeVideoId);
-		if ($scope.playlist.length !== 0) {
-			$scope.playlist.forEach(function(song) {
-				if (song.videoId !== youtubeVideoId) {
-					factory.fetchSongDetails(youtubeVideoId, function(response1) {
-						console.log(response1);
-
-						var details = response1.data.items[0].snippet;
-						// var imageUrl = details.thumbnails.medium.url;
-						var titleDetail = details.title;
-
-						var songObject = {
-							title: titleDetail,
-							videoId: youtubeVideoId,
-						};
-
-						$scope.playlist.push(songObject);
-						var index = $scope.playlist.findIndex(song => song.videoId == youtubeVideoId);
-						var currentPlay = $scope.playlist[index - 1].videoId;
-						$('#id-' + currentPlay).children('span').remove();
-
-						$('#id-' + youtubeVideoId).ready(function() {
-							$('#id-' + youtubeVideoId).append('<span id="curr" class="new badge" data-badge-caption="current"></span>');
-						});
-						// }
-						socket.emit('addPlay',
-							songObject
-						);
-					});
-
-					runSong(youtubeVideoId);
-				}
-			});
-		} else {
+		var index = $scope.playlist.findIndex(song => song.videoId == youtubeVideoId);
+		if (index === -1) {
 			factory.fetchSongDetails(youtubeVideoId, function(response1) {
 				console.log(response1);
 
@@ -123,12 +92,6 @@ app.controller('app', ['$scope', 'factory', function($scope, factory) {
 
 			runSong(youtubeVideoId);
 		}
-
-
-		/*var data1 = $('#message').val();
-		$('#mess1').append('<br><b>' + data1 + '</b><br>');
-		$('#message').val('');
-		return false;*/
 	};
 
 	$scope.queue = function() {
@@ -148,14 +111,13 @@ app.controller('app', ['$scope', 'factory', function($scope, factory) {
 				title: details.title
 			};
 
-			$scope.playlist.forEach(function(song) {
-				if (song.videoId !== id) {
-					$scope.playlist.push(queueObject);
-					socket.emit('addPlay',
-						queueObject
-					);
-				}
-			});
+			var index = $scope.playlist.findIndex(song => song.videoId == id);
+			if (index === -1) {
+				$scope.playlist.push(queueObject);
+				socket.emit('addPlay',
+					queueObject
+				);
+			}
 		});
 	};
 
@@ -185,5 +147,44 @@ app.controller('app', ['$scope', 'factory', function($scope, factory) {
 			});
 		}
 	});
+
+	$scope.next = function() {
+		var currentSong = $('#curr').parent('li').attr('id');
+		var currentSong1 = currentSong.split('-');
+		var currentSongId = currentSong1[1];
+		var index = $scope.playlist.findIndex(song => song.videoId == currentSongId);
+		console.log(index);
+		var length = $scope.playlist.length;
+		if ($scope.playlist[(index + 1) % length]) {
+			var nextSongId = $scope.playlist[(index + 1) % length].videoId;
+			runSong(nextSongId);
+			var previousSongId = $scope.playlist[(index) % length].videoId;
+			$('#id-' + previousSongId).ready(function() {
+				$('#id-' + previousSongId).children('span').remove();
+			});
+			$('#id-' + nextSongId).ready(function() {
+				$('#id-' + nextSongId).append('<span id="curr" class="new badge" data-badge-caption="current"></span>');
+			});
+		}
+	};
+
+	$scope.prev = function() {
+		var currentSong = $('#curr').parent('li').attr('id');
+		var currentSong1 = currentSong.split('-');
+		var currentSongId = currentSong1[1];
+		var index = $scope.playlist.findIndex(song => song.videoId == currentSongId);
+		var length = $scope.playlist.length;
+		if ($scope.playlist[index - 1]) {
+			var prevSongId = $scope.playlist[index - 1].videoId;
+			runSong(prevSongId);
+			var nextSongId = $scope.playlist[index].videoId;
+			$('#id-' + nextSongId).ready(function() {
+				$('#id-' + nextSongId).children('span').remove();
+			});
+			$('#id-' + prevSongId).ready(function() {
+				$('#id-' + prevSongId).append('<span id="curr" class="new badge" data-badge-caption="current"></span>');
+			});
+		}
+	};
 
 }]);
