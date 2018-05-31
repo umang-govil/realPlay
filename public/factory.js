@@ -5,6 +5,7 @@ app.factory('factory', ['$http', function($http) {
 
 	return {
 		getSong: function(data, callback) {
+			console.log('calling getSONG');
 			$http.get(url + 'getSong/' + data)
 				.then(function(success) {
 					callback(success);

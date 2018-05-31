@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>RealPlay</title>
+  <meta content="text/xml" charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
@@ -68,7 +69,7 @@
          <div class="input-field col s11">
           <ul class="collection with-header">
             <li class="collection-header"><h5>Playlist :</h5></li>
-            <li ng-repeat="song in playlist track by $index" id="{{song.videoId}}" class="collection-item">{{song.title}}</li>
+            <li ng-repeat="song in playlist track by $index" id="id-{{song.videoId}}" class="collection-item">{{song.title}}</li>
          </ul>
         </div>
       </div>

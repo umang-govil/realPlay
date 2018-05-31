@@ -18,16 +18,42 @@ app.controller('app', ['$scope', 'factory', function($scope, factory) {
 		});
 	});
 
-	var runSong = function(baseUrl, youtubeVideoId) {
-		var audio = document.getElementById('media');
-		audio.setAttribute('src', baseUrl + youtubeVideoId);
-		audio.load();
-		audio.play();
-	};
-
 	var setDetails = function(imageUrl, titleDetail) {
 		$scope.title = titleDetail;
 		$scope.image = imageUrl;
+	};
+
+	var runSong = function(youtubeVideoId) {
+		$('#mediaPlayer').hide();
+		$('#loader').show();
+		var audio = document.getElementById('media');
+
+		factory.getSong(youtubeVideoId, function(response) {
+			/*console.log(response);
+			$('#mediaPlayer').show();
+			$('#loader').hide();
+			runSong(baseUrl, youtubeVideoId);*/
+		});
+
+		factory.fetchSongDetails(youtubeVideoId, function(response1) {
+
+			var details = response1.data.items[0].snippet;
+			var imageUrl = details.thumbnails.medium.url;
+			var titleDetail = details.title;
+
+			setDetails(imageUrl, titleDetail);
+
+			/*var songObject = {
+				title: titleDetail,
+				videoId: youtubeVideoId,
+			};*/
+			// if ($scope.playlist.length === 0) {
+			// $scope.playlist.push(songObject);
+			// }
+		});
+
+		audio.setAttribute('src', baseUrl + youtubeVideoId);
+		audio.play();
 	};
 
 	$scope.add = function() {
@@ -39,36 +65,64 @@ app.controller('app', ['$scope', 'factory', function($scope, factory) {
 			youtubeVideoId = youtubeVideoId.substring(0, ampersandPosition);
 		}
 
-		console.log(youtubeVideoId);
-		$('#mediaPlayer').hide();
-		$('#loader').show();
+		// console.log(youtubeVideoId);
+		if ($scope.playlist.length !== 0) {
+			$scope.playlist.forEach(function(song) {
+				if (song.videoId !== youtubeVideoId) {
+					factory.fetchSongDetails(youtubeVideoId, function(response1) {
+						console.log(response1);
 
-		factory.fetchSongDetails(youtubeVideoId, function(response1) {
-			console.log(response1);
-			var details = response1.data.items[0].snippet;
-			var imageUrl = details.thumbnails.medium.url;
-			var titleDetail = details.title;
+						var details = response1.data.items[0].snippet;
+						// var imageUrl = details.thumbnails.medium.url;
+						var titleDetail = details.title;
 
-			setDetails(imageUrl, titleDetail);
+						var songObject = {
+							title: titleDetail,
+							videoId: youtubeVideoId,
+						};
 
-			var songObject = {
-				title: titleDetail,
-				videoId: youtubeVideoId,
-			};
-			// if ($scope.playlist.length === 0) {
-			$scope.playlist.push(songObject);
-			// }
-			socket.emit('addPlay',
-				songObject
-			);
-		});
+						$scope.playlist.push(songObject);
+						var index = $scope.playlist.findIndex(song => song.videoId == youtubeVideoId);
+						var currentPlay = $scope.playlist[index - 1].videoId;
+						$('#id-' + currentPlay).children('span').remove();
 
-		factory.getSong(youtubeVideoId, function(response) {
-			console.log(response);
-			$('#mediaPlayer').show();
-			$('#loader').hide();
-			runSong(baseUrl, youtubeVideoId);
-		});
+						$('#id-' + youtubeVideoId).ready(function() {
+							$('#id-' + youtubeVideoId).append('<span id="curr" class="new badge" data-badge-caption="current"></span>');
+						});
+						// }
+						socket.emit('addPlay',
+							songObject
+						);
+					});
+
+					runSong(youtubeVideoId);
+				}
+			});
+		} else {
+			factory.fetchSongDetails(youtubeVideoId, function(response1) {
+				console.log(response1);
+
+				var details = response1.data.items[0].snippet;
+				// var imageUrl = details.thumbnails.medium.url;
+				var titleDetail = details.title;
+
+				var songObject = {
+					title: titleDetail,
+					videoId: youtubeVideoId,
+				};
+				// if ($scope.playlist.length === 0) {
+				$scope.playlist.push(songObject);
+				$('#id-' + youtubeVideoId).ready(function() {
+					$('#id-' + youtubeVideoId).append('<span id="curr" class="new badge" data-badge-caption="current"></span>');
+				});
+				// }
+				socket.emit('addPlay',
+					songObject
+				);
+			});
+
+			runSong(youtubeVideoId);
+		}
 
 
 		/*var data1 = $('#message').val();
@@ -94,11 +148,42 @@ app.controller('app', ['$scope', 'factory', function($scope, factory) {
 				title: details.title
 			};
 
-			$scope.playlist.push(queueObject);
-			socket.emit('addPlay',
-				queueObject
-			);
+			$scope.playlist.forEach(function(song) {
+				if (song.videoId !== id) {
+					$scope.playlist.push(queueObject);
+					socket.emit('addPlay',
+						queueObject
+					);
+				}
+			});
 		});
-
 	};
+
+	var audio1 = document.getElementById('media');
+
+	audio1.addEventListener('playing', function(e) {
+		$('#mediaPlayer').show();
+		$('#loader').hide();
+	});
+
+	audio1.addEventListener('ended', function(e) {
+
+		var currentSong = $('#curr').parent('li').attr('id');
+		var currentSong1 = currentSong.split('-');
+		var currentSongId = currentSong1[1];
+		console.log(currentSongId);
+		var index = $scope.playlist.findIndex(song => song.videoId == currentSongId);
+		if ($scope.playlist[index + 1]) {
+			var nextSongId = $scope.playlist[index + 1].videoId;
+			runSong(nextSongId);
+			var previousSongId = $scope.playlist[index].videoId;
+			$('#id-' + previousSongId).ready(function() {
+				$('#id-' + previousSongId).children('span').remove();
+			});
+			$('#id-' + nextSongId).ready(function() {
+				$('#id-' + nextSongId).append('<span id="curr" class="new badge" data-badge-caption="current"></span>');
+			});
+		}
+	});
+
 }]);
