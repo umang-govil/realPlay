@@ -23,17 +23,14 @@ app.controller('app', ['$scope', 'factory', function($scope, factory) {
 		$scope.image = imageUrl;
 	};
 
-	var runSong = function(youtubeVideoId) {
+	function runSong(youtubeVideoId) {
 		$('#mediaPlayer').hide();
 		$('#loader').show();
 		var audio = document.getElementById('media');
 
-		factory.getSong(youtubeVideoId, function(response) {
-			/*console.log(response);
-			$('#mediaPlayer').show();
-			$('#loader').hide();
-			runSong(baseUrl, youtubeVideoId);*/
-		});
+		/*factory.getSong(youtubeVideoId, function(response) {
+
+		});*/
 
 		factory.fetchSongDetails(youtubeVideoId, function(response1) {
 
@@ -53,11 +50,11 @@ app.controller('app', ['$scope', 'factory', function($scope, factory) {
 		});
 
 		audio.setAttribute('src', baseUrl + youtubeVideoId);
+		audio.load();
 		audio.play();
-	};
+	}
 
 	$scope.add = function() {
-
 		var youtubeVideoUrl = $('#message').val();
 		var youtubeVideoId = youtubeVideoUrl.split('v=')[1];
 		var ampersandPosition = youtubeVideoId.indexOf('&');
@@ -129,7 +126,7 @@ app.controller('app', ['$scope', 'factory', function($scope, factory) {
 	});
 
 	audio1.addEventListener('ended', function(e) {
-
+		console.log('song ended');
 		var currentSong = $('#curr').parent('li').attr('id');
 		var currentSong1 = currentSong.split('-');
 		var currentSongId = currentSong1[1];
@@ -154,11 +151,10 @@ app.controller('app', ['$scope', 'factory', function($scope, factory) {
 		var currentSongId = currentSong1[1];
 		var index = $scope.playlist.findIndex(song => song.videoId == currentSongId);
 		console.log(index);
-		var length = $scope.playlist.length;
-		if ($scope.playlist[(index + 1) % length]) {
-			var nextSongId = $scope.playlist[(index + 1) % length].videoId;
+		if ($scope.playlist[index + 1]) {
+			var nextSongId = $scope.playlist[index + 1].videoId;
 			runSong(nextSongId);
-			var previousSongId = $scope.playlist[(index) % length].videoId;
+			var previousSongId = $scope.playlist[index].videoId;
 			$('#id-' + previousSongId).ready(function() {
 				$('#id-' + previousSongId).children('span').remove();
 			});
