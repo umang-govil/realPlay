@@ -9,3 +9,29 @@
 	width: 0;
 	background-color: #E0EAF1;
 }
+
+.playSingle {
+	color: black;
+}
+
+.playSingle:hover {
+	color: teal;
+	cursor: default;
+}
+
+.main-card {
+	transition: 0.3s;
+}
+
+.main-card:hover {
+	box-shadow: 0 0 5px 5px #009999;
+	cursor: pointer;
+}
+
+.clear:hover {
+	cursor: pointer;
+}
+
+.play:hover {
+	cursor: pointer;
+}

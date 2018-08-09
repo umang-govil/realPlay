@@ -1,0 +1,34 @@
+<div style="background-color: white; padding: 50px;" class="container">
+	<div ng-show='!createFlag && !joinFlag' class="row">
+    <div ng-click="create()" class="col s6 main-card">
+      <div class="card-panel teal">
+        <span class="white-text">
+        	<b>CREATE YOUR PLAYLIST !!</b>
+        </span>
+      </div>
+    </div>
+    <div ng-click="join()" class="col s6 main-card">
+      <div class="card-panel teal">
+        <span class="white-text">
+        	<b>JOIN A PLAYLIST!!</b>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div ng-show='createFlag' class="input-field col s11">
+  	<input id="inputCreate" type="text" class="validate" required>
+    <label for="inputCreate">{{label}}</label>
+    <button ng-click="inputCreate()" class="waves-effect waves-light btn">CREATE</button>
+    &nbsp;&nbsp;&nbsp;
+   <span ng-if="taken == 11000" style="color: red;">Name Already Taken !!</span>
+   <span ng-if="success.success == true" style="color: green;">{{success.message}}</span>
+   </div>
+   <div ng-show='joinFlag' class="input-field col s11">
+    <input id="inputJoin" type="text" class="validate" required>
+    <label for="inputJoin">{{label}}</label>
+    <button ng-click="inputJoin()" class="waves-effect waves-light btn">JOIN</button>
+    &nbsp;&nbsp;&nbsp;
+       <span ng-if="found.found == false" style="color: red;">{{found.message}}</span>
+   </div>
+</div>
+

@@ -3,12 +3,32 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var port = process.env.PORT || 3000;
 var path = require('path');
+var mongoose = require('mongoose');
+
+var database = process.env.database;
 
 var cors = require('cors');
 
 var app = express();
 
 app.use(cors());
+
+var options = {
+	server: {
+		socketOptions: {
+			keepAlive: 300000,
+			connectTimeoutMS: 30000
+		}
+	}
+};
+
+mongoose.connect(database, options, function(err) {
+	if (err) {
+		console.log(err);
+	} else {
+		console.log("Connected to the database");
+	}
+});
 
 module.exports = app;
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html  ng-app="playlistApp">
 <head>
-  <title>RealPlay</title>
+  <title>ShareYourMusic</title>
   <meta content="text/xml" charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
@@ -10,11 +10,12 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="jquery.min.js"></script>
   <script src="angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.19/angular-ui-router.min.js"></script> -->
   <script src="materialize.min.js"></script>
   <script src="controller.js"></script>
   <script src="factory.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-  <!-- <script src="angular-soundmanager2.js"></script> -->
 </head>
 <style type="text/css">
  body {
@@ -23,60 +24,9 @@
     font-family: 'Raleway', sans-serif;
 }
 </style>
-<body style="background-color: #f1f1f1;" ng-app="playlistApp" ng-controller="app">
-  <div style="background-color: white;" class="container">
-    <h2 style="text-align: center;background-color: teal;color: white; padding: 20px;">Real Time Playlist</h2>
-      <div class="container">
-        <div style="padding: 15px;">
-        <div class="row">
-            <div id="thumbnail" class="input-field col s6">
-                <img class="z-depth-4 responsive-img" src="{{image}}">
-            </div>
-            <br>
-             <div id="title" class="input-field col s6">
-                <span><b>{{title}}</b></span>
-            </div>
-           <div style="float: right;" id="mediaPlayer" class="input-field col s6">
-            <center>
-            <audio id="media" controls>
-                <source id="mp3" src="" type="audio/mp3">
-            </audio>
-            <button ng-click="prev()" class="waves-effect waves-light btn">Prev</button>
-            &nbsp;&nbsp;&nbsp;<button ng-click="next()" class="waves-effect waves-light btn">Next</button>
-          </center>
-          </div>
-          <br>
-            <div id="loader" class="input-field col s6">
-            <center>
-            <div class="preloader-wrapper active">
-              <div class="spinner-layer spinner-blue-only">
-                <div class="circle-clipper left">
-                  <div class="circle"></div>
-                </div><div class="gap-patch">
-                  <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                  <div class="circle"></div>
-                </div>
-              </div>
-            </div>
-            </center>
-          </div>
-        </div>
-          <br>
-          <div class="input-field col s11">
-              <input ng-model="mess" id="message" type="text" class="validate" required>
-              <label for="message">Paste your Youtube Url </label>
-              <button ng-click="add()" class="waves-effect waves-light btn">Play</button>
-              &nbsp;<button ng-click="queue()" class="waves-effect waves-light btn">Queue</button>
-          </div>
-         <div class="input-field col s11">
-          <ul class="collection with-header">
-            <li class="collection-header"><h5>Playlist :</h5></li>
-            <li ng-repeat="song in playlist track by $index" id="id-{{song.videoId}}" class="collection-item">{{song.title}}</li>
-         </ul>
-        </div>
-      </div>
-    </div>
+<body style="background-color: #f1f1f1;" ng-controller="mainController">
+  <h2 style="text-align: center;background-color: teal;color: white; padding: 20px;">Share Your Music</h2>
+    <div ng-view></div>
 </body>
 </html>
 
