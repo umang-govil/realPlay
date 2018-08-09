@@ -41,9 +41,9 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 		}
 	});
 
-	var baseUrl = 'http://localhost:3000/api/getSong/';
+	var baseUrl = 'https://sharemymusic.herokuapp.com/api/getSong/';
 	$('#loader').hide();
-	var socket = io.connect('http://localhost:3000');
+	var socket = io.connect('https://sharemymusic.herokuapp.com/');
 
 	socket.on('msg', function(data) {
 		$scope.$apply(function() {
@@ -68,7 +68,7 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 
 		factory.fetchSongDetails(youtubeVideoId, function(response1) {
 
-			var details = response1.data.items[0].snippet;
+			var details = response1.data.body.items[0].snippet;
 			var imageUrl = details.thumbnails.medium.url;
 			var titleDetail = details.title;
 
@@ -95,7 +95,7 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 			response.data.items.forEach(function(item) {
 				$scope.searches.push(item);
 			});*/
-			$scope.searches = response.data.items;
+			$scope.searches = response.data.body.items;
 			console.log($scope.searches);
 		});
 	};
@@ -111,7 +111,7 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 			factory.fetchSongDetails(youtubeVideoId, function(response1) {
 				console.log(response1);
 
-				var details = response1.data.items[0].snippet;
+				var details = response1.data.body.items[0].snippet;
 				// var imageUrl = details.thumbnails.medium.url;
 				var titleDetail = details.title;
 
@@ -152,7 +152,7 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 		var id = videoArr1[1];
 
 		factory.fetchSongDetails(id, function(response2) {
-			var details = response2.data.items[0].snippet;
+			var details = response2.data.body.items[0].snippet;
 
 			var queueObject = {
 				videoId: id,

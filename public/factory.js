@@ -1,12 +1,9 @@
 playlistApp.factory('factory', ['$http', function($http) {
 
 	var url = 'https://sharemymusic.herokuapp.com/api/';
-	var youtubeApi = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&id=';
-	var searchYoutubeApi = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&type=video&q=';
 
 	return {
 		getSong: function(data, callback) {
-			console.log('calling getSONG');
 			$http.get(url + 'getSong/' + data)
 				.then(function(success) {
 					callback(success);
@@ -15,7 +12,7 @@ playlistApp.factory('factory', ['$http', function($http) {
 				});
 		},
 		fetchSongDetails: function(data, callback) {
-			$http.get(youtubeApi + data + '&key=' + process.env.API_KEY)
+			$http.get(url + '/fetchSongDetails/' + data)
 				.then(function(success) {
 					callback(success);
 				}, function(error) {
@@ -47,7 +44,7 @@ playlistApp.factory('factory', ['$http', function($http) {
 				});
 		},
 		searchSongs: function(data, callback) {
-			$http.get(searchYoutubeApi + data + '&key=AIzaSyBY2NVg4Gzrhn1PN0kfZaCliNs_OiZlBPU')
+			$http.get(url + '/searchSongs/' + data)
 				.then(function(success) {
 					callback(success);
 				}, function(error) {

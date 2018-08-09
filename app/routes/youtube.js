@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
+var request = require('request');
 
 var Playlist = require('./playlistSchema');
 
@@ -98,6 +99,24 @@ api.getPlaylist = function(req, res) {
 				songDetails: playlist.songDetails
 			});
 		}
+	});
+};
+
+api.fetchSongDetails = function(req, res) {
+	request('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + req.params.id + '&key=' + process.env.API_KEY, {
+		json: true
+	}, function(err, resp, body) {
+		if (err) throw err;
+		res.send(resp);
+	});
+};
+
+api.searchSongs = function(req, res) {
+	request('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&type=video&q=' + req.params.q + '&key=' + process.env.API_KEY, {
+		json: true
+	}, function(err, resp, body) {
+		if (err) throw err;
+		res.send(resp);
 	});
 };
 
