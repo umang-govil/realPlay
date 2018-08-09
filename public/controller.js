@@ -308,7 +308,7 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 			});
 
 			$scope.playlist.splice(index, 1);
-			var nextId = $scope.playlist[index - 1].videoId;
+			var nextId = $scope.playlist[index + 1].videoId;
 			$('#id--' + nextId).ready(function() {
 				$('#id--' + nextId).append('<span id="curr" class="new badge" data-badge-caption="current"></span>');
 			});
