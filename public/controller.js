@@ -302,7 +302,7 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 		var songArr = c.target.parentNode.id.split('--');
 		var songId = songArr[1];
 		var index = $scope.playlist.findIndex(song => song.videoId == songId);
-		if (!index) {
+		if (index !== 0) {
 			$('#id--' + currentSongId).ready(function() {
 				$('#id--' + currentSongId).children('span').remove();
 			});
