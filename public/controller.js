@@ -313,6 +313,7 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 				$('#id--' + nextId).append('<span id="curr" class="new badge" data-badge-caption="current"></span>');
 			});
 		}
+		$scope.playlist.splice(index, 1);
 	};
 });
 
