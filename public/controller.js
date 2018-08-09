@@ -293,11 +293,26 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 	};
 
 	$scope.clear = function(c) {
+		var currentSong = $('#curr').parent('li').attr('id');
+		var currentSong1 = currentSong.split('--');
+		var currentSongId = currentSong1[1];
+
+		var currentIndex = $scope.playlist.findIndex(song => song.videoId == currentSongId);
+
 		var songArr = c.target.parentNode.id.split('--');
 		var songId = songArr[1];
 		var index = $scope.playlist.findIndex(song => song.videoId == songId);
+		if (!index) {
+			$('#id--' + currentSongId).ready(function() {
+				$('#id--' + currentSongId).children('span').remove();
+			});
 
-		$scope.playlist.splice(index, 1);
+			$scope.playlist.splice(index, 1);
+			var nextId = $scope.playlist[index - 1].videoId;
+			$('#id--' + nextId).ready(function() {
+				$('#id--' + nextId).append('<span id="curr" class="new badge" data-badge-caption="current"></span>');
+			});
+		}
 	};
 });
 
