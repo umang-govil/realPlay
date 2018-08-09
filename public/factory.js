@@ -1,6 +1,6 @@
 playlistApp.factory('factory', ['$http', function($http) {
 
-	var url = 'http://localhost:3000/api/';
+	var url = 'https://sharemymusic.herokuapp.com/api/';
 	var youtubeApi = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&id=';
 	var searchYoutubeApi = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&type=video&q=';
 
