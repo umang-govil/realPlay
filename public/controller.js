@@ -318,6 +318,7 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 				var nextId1;
 				if (index == length - 1) {
 					nextId1 = $scope.playlist[0].videoId;
+					$('#id--' + nextId1).append('<span id="curr" class="new badge" data-badge-caption="current"></span>');
 				} else {
 					nextId1 = $scope.playlist[currentIndex + 1].videoId;
 					var prevId1 = $scope.playlist[currentIndex].videoId;
