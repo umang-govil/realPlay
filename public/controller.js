@@ -41,9 +41,9 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 		}
 	});
 
-	var baseUrl = 'http://localhost:3000/api/getSong/';
+	var baseUrl = 'https://sharemymusic.herokuapp.com/api/getSong/';
 	$('#loader').hide();
-	var socket = io.connect('http://localhost:3000/');
+	var socket = io.connect('https://sharemymusic.herokuapp.com/');
 
 	socket.on('msg', function(data) {
 		$scope.$apply(function() {
