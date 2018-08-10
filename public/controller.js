@@ -41,9 +41,9 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 		}
 	});
 
-	var baseUrl = 'https://sharemymusic.herokuapp.com/api/getSong/';
+	var baseUrl = 'http://localhost:3000/api/getSong/';
 	$('#loader').hide();
-	var socket = io.connect('https://sharemymusic.herokuapp.com/');
+	var socket = io.connect('http://localhost:3000/');
 
 	socket.on('msg', function(data) {
 		$scope.$apply(function() {
@@ -293,27 +293,37 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 	};
 
 	$scope.clear = function(c) {
-		var currentSong = $('#curr').parent('li').attr('id');
-		var currentSong1 = currentSong.split('--');
-		var currentSongId = currentSong1[1];
+		if ($scope.playlist.length != 1) {
+			var currentSong = $('#curr').parent('li').attr('id');
+			var currentSong1 = currentSong.split('--');
+			var currentSongId = currentSong1[1];
 
-		var currentIndex = $scope.playlist.findIndex(song => song.videoId == currentSongId);
+			var currentIndex = $scope.playlist.findIndex(song => song.videoId == currentSongId);
 
-		var songArr = c.target.parentNode.id.split('--');
-		var songId = songArr[1];
-		var index = $scope.playlist.findIndex(song => song.videoId == songId);
-		if (index !== 0) {
-			$('#id--' + currentSongId).ready(function() {
-				$('#id--' + currentSongId).children('span').remove();
-			});
-
+			var songArr = c.target.parentNode.id.split('--');
+			var songId = songArr[1];
+			var index = $scope.playlist.findIndex(song => song.videoId == songId);
+			var length = $scope.playlist.length;
+			if (index < currentIndex) {
+				console.log('less');
+				var remId = $scope.playlist[currentIndex + 1].videoId;
+				$('#id--' + remId).ready(function() {
+					$('#id--' + remId).children('span').remove();
+				});
+				$('#id--' + currentSongId).ready(function() {
+					$('#id--' + currentSongId).append('<span id="curr" class="new badge" data-badge-caption="current"></span>');
+				});
+			} else if (index == currentIndex) {
+				console.log('equal');
+				var nextId1 = $scope.playlist[currentIndex + 1].videoId;
+				var prevId1 = $scope.playlist[currentIndex].videoId;
+				$('#id--' + prevId1).ready(function() {
+					$('#id--' + prevId1).children('span').remove();
+				});
+				runSong(nextId1);
+			}
 			$scope.playlist.splice(index, 1);
-			var nextId = $scope.playlist[index + 1].videoId;
-			$('#id--' + nextId).ready(function() {
-				$('#id--' + nextId).append('<span id="curr" class="new badge" data-badge-caption="current"></span>');
-			});
 		}
-		$scope.playlist.splice(index, 1);
 	};
 });
 

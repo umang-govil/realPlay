@@ -1,6 +1,6 @@
 playlistApp.factory('factory', ['$http', function($http) {
 
-	var url = 'https://sharemymusic.herokuapp.com/api/';
+	var url = 'http://localhost:3000/api/';
 
 	return {
 		getSong: function(data, callback) {
