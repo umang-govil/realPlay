@@ -315,11 +315,16 @@ playlistApp.controller('playlistController', function($scope, $location, factory
 				});
 			} else if (index == currentIndex) {
 				console.log('equal');
-				var nextId1 = $scope.playlist[(currentIndex + 1) % length].videoId;
-				var prevId1 = $scope.playlist[currentIndex].videoId;
-				$('#id--' + prevId1).ready(function() {
-					$('#id--' + prevId1).children('span').remove();
-				});
+				var nextId1;
+				if (index == length - 1) {
+					nextId1 = $scope.playlist[0].videoId;
+				} else {
+					nextId1 = $scope.playlist[currentIndex + 1].videoId;
+					var prevId1 = $scope.playlist[currentIndex].videoId;
+					$('#id--' + prevId1).ready(function() {
+						$('#id--' + prevId1).children('span').remove();
+					});
+				}
 				runSong(nextId1);
 			}
 			$scope.playlist.splice(index, 1);
