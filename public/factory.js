@@ -12,7 +12,7 @@ playlistApp.factory('factory', ['$http', function($http) {
 				});
 		},
 		fetchSongDetails: function(data, callback) {
-			$http.get(url + '/fetchSongDetails/' + data)
+			$http.get(url + 'fetchSongDetails/' + data)
 				.then(function(success) {
 					callback(success);
 				}, function(error) {
